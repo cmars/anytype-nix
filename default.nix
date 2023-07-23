@@ -4,10 +4,11 @@
 , fetchurl
 , appimageTools
 , makeWrapper
-, electron
+, electron_22
 }:
 
 let
+  electron = electron_22;
 in
 stdenv.mkDerivation rec {
   pname = "anytype";
@@ -50,6 +51,7 @@ stdenv.mkDerivation rec {
   postFixup = ''
     makeWrapper ${electron}/bin/electron $out/bin/${pname} \
       --add-flags $out/share/${pname}/resources/app.asar \
+      --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations}}" \
       --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [ stdenv.cc.cc pkgs.libsecret ]}"
   '';
 
