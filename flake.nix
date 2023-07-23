@@ -15,7 +15,6 @@
         packages = flake-utils.lib.flattenTree {
           anytype = pkgs.callPackage ./default.nix { };
         };
-        defaultPackage = packages.anytype;
-        defaultApp = flake-utils.lib.mkApp { drv = packages.anytype; };
+        apps.default = flake-utils.lib.mkApp { drv = packages.anytype; };
       });
 }
